@@ -1,7 +1,4 @@
 import './style.css'
+import {Game} from './game'
 
-const app = document.querySelector<HTMLDivElement>('#app')!
-
-app.innerHTML = `
-  <h1>Hello Lox!</h1>
-`
+new Game(document.body)
