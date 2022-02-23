@@ -1,4 +1,6 @@
-let createAndAppend = ({tag = 'div', className, parent, value = ''}: {tag?: string, className: string, parent: HTMLElement, value?: string}) => {
+import { GameCell } from "./cell"
+
+export let createAndAppend = ({tag = 'div', className, parent, value = ''}: {tag?: string, className: string, parent: HTMLElement, value?: string}) => {
     let element = document.createElement(tag)
     element.className = className
     if (value) {
@@ -34,14 +36,7 @@ export class Game {
 
         for (let i = 0; i < 5; i++) {
             for (let k = 0; k < 5; k++) {
-                let cellElement = createAndAppend({
-                    className: 'cell',
-                    parent: fieldElement
-                })
-
-                if (Math.random() > 0.8) {
-                    cellElement.innerHTML = Math.random() > 0.9 ? '4' : '2'
-                }
+                new GameCell(fieldElement)
             }
         }
     }
