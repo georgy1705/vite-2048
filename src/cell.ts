@@ -11,12 +11,8 @@ export class GameCell {
         })
 
         if (Math.random() > 0.8) {
-            this.value = Math.random() > 0.9 ? 4 : 2            
+            this.spawn()         
         }
-
-        this.element.addEventListener('click', e => {
-            this.merge()
-        })
     }
 
     get value(): number | string {
@@ -32,7 +28,20 @@ export class GameCell {
         this.value = ''
     }
 
-    merge = () => {
-        this.value *= 2
+    merge = (cell: any) => {
+        this.value += cell.value
+        cell.clear()
+    }
+
+    isSameTo = (cell: any) => {
+        return this.value == cell.value
+    }
+
+    spawn = () => {
+        this.value = Math.random() > 0.9 ? 4 : 2  
+    }
+
+    get isEmpty() {
+        return this.value == 0;
     }
 }
