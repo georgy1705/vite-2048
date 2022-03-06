@@ -2,9 +2,11 @@ import { createAndAppend } from "./game"
 
 export class GameCell {
     element: HTMLElement;
+    game: any;
     private _value: number | string;
     
-    constructor(fieldElement: HTMLElement) {
+    constructor(fieldElement: HTMLElement, game: any) {
+        this.game = game
         this.element = createAndAppend({
             className: 'cell',
             parent: fieldElement
@@ -22,6 +24,13 @@ export class GameCell {
     set value(value: number | string) {
         this._value = value;
         this.element.innerHTML = value === 0 ? '' : String(value)
+
+        this.element.setAttribute("data-value", String(value))
+
+        if (Number(value) > 2048) {
+            this.element.style.color = "#DAA520";
+            this.element.style.background = "#f9f6f2";
+        } 
     }
 
     clear = () => {
@@ -29,7 +38,12 @@ export class GameCell {
     }
 
     merge = (cell: any) => {
+        if (this.value) {
+            this.game.addRating(this.value + cell.value)
+        }
+
         this.value += cell.value
+
         cell.clear()
     }
 

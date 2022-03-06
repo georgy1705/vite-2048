@@ -22,7 +22,8 @@ let isLastKey = (key: number) => key == 4
 
 
 export class Game {
-    rating: number
+    private _rating: number
+    headerElement: any
     field: any
 
     constructor(parentElement: HTMLElement) {
@@ -31,13 +32,12 @@ export class Game {
             parent: parentElement
         })
 
-        let headerElement = createAndAppend({
+        this.headerElement = createAndAppend({
             className: 'header',
             parent: gameFieldElement
         })
 
         this.rating = 0
-        headerElement.innerHTML = 'Rating: ' + this.rating
 
         let fieldElement = createAndAppend({
             className: 'field',
@@ -49,7 +49,7 @@ export class Game {
         for (let i = 0; i < 5; i++) {
             this.field[i] = []
             for (let k = 0; k < 5; k++) {
-                this.field[i][k] = new GameCell(fieldElement)
+                this.field[i][k] = new GameCell(fieldElement, this)
             }
         }
 
@@ -69,6 +69,19 @@ export class Game {
                     break
             }
         }
+    }
+
+    set rating(value: number) {
+        this._rating = value;
+        this.headerElement.innerHTML = 'Rating: ' + String(this.rating)
+    }
+
+    get rating() {
+        return this._rating
+    }
+
+    addRating = (value: number) => {
+        this.rating += value
     }
 
     spawnUnit = () => {
